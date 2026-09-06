@@ -1,6 +1,6 @@
-# 电商经营数据分析 Dashboard
+# 一键生成电商经营 Dashboard 与 AI 经营日报
 
-基于 Kaggle [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)。打开 Power BI 可看经营 KPI、趋势、品类、州地图和 RFM 分层；`src/report.py` 用同一口径生成经营总结。
+基于 Kaggle [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)。`python main.py` 会依次清洗数据、算 SQL 指标、做 RFM 分层并生成经营总结；再刷新 Power BI 即可看看板。
 
 ## 最终用户能看到什么
 
@@ -26,14 +26,12 @@ Olist 9 张 CSV 放在 `data/raw/`。
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-python src/preprocess.py
-python src/run_sql.py
-python src/rfm.py
-python src/cluster.py
 copy .env.example .env
 # 编辑 .env，填 QWEN_API_KEY 或 OPENAI_API_KEY（同时填则优先 Qwen）
-python src/report.py
+python main.py
 ```
+
+`main.py` 等价于依次执行 `src/preprocess.py`、`src/run_sql.py`、`src/rfm.py`、`src/report.py`。聚类对照仍可单独跑 `python src/cluster.py`。
 
 Power BI：按 [dashboard/README.md](dashboard/README.md) 用 `data/processed/*.csv` 打开或刷新本地 `dashboard/Ecommerce.pbix`。
 
@@ -61,6 +59,7 @@ ecommerce-analysis/
 ├── data/raw/                 # Olist 原始 CSV
 ├── data/processed/           # 清洗表、汇总、DuckDB、经营总结
 ├── sql/01–04_*.sql           # KPI / 客户 / 品类 / RFM
+├── main.py                   # 一键：清洗 → SQL → RFM → 经营日报
 ├── src/preprocess.py         # 清洗
 ├── src/run_sql.py            # 执行 SQL 并导出汇总
 ├── src/rfm.py / cluster.py   # 规则分层与 KMeans 对照
