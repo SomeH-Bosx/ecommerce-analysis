@@ -1,5 +1,38 @@
 # 开发日志
 
+## [2026-09-06] 记录新版卡片无法关闭「千」
+
+- 做了什么：对照用户格式面板，确认新版 Card 没有可用的显示单位项，改为用 FORMAT 度量值出原值。
+- 修改文件：
+  - `error.md`：记录 1.55 千与 FORMAT 绕过办法
+  - `dev-log.md`：本步日志
+
+## [2026-09-06] 记录填充地图启用后仍灰屏
+
+- 做了什么：对照用户截图，确认是 Bing 地图安全策略/网络问题，不是字段拖错。
+- 修改文件：
+  - `error.md`：记录 `FilledMapVisualNotEnabled` 与备用绑法
+  - `dashboard/README.md`：补充重启、经纬度地图、州柱状图备选
+  - `dev-log.md`：本步日志
+
+## [2026-09-06] 记录 Power BI 未提升表头
+
+- 做了什么：对照用户导入界面，确认 `brazil_states.csv` 文件本身有表头；在说明和踩坑里补上「将第一行用作标题」。
+- 修改文件：
+  - `dashboard/README.md`：导入步骤补充未识别列名时的处理
+  - `error.md`：记录 Column1 现象与解决办法
+  - `dev-log.md`：本步日志
+
+## [2026-09-06] 写出 Power BI 搭建步骤与州名对照
+
+- 做了什么：在 `feature/dashboard` 写好 Desktop 操作说明，并补巴西州名、RFM 排序对照表。`.pbix` 需在 Power BI Desktop 里手工保存。
+- 修改文件：
+  - `dashboard/README.md`：从导入到两页视觉对象的具体步骤
+  - `dashboard/brazil_states.csv`：州缩写到地图全名
+  - `dashboard/rfm_segment_sort.csv`：分段显示顺序
+  - `README.md`：指向 Dashboard 说明
+  - `dev-log.md`：本步日志
+
 ## [2026-09-06] 实现 RFM 规则分层与 KMeans 对照
 
 - 做了什么：在 `feature/rfm-cluster` 完成 RFM 打分、五段业务标签、KMeans 对照和 EDA 笔记本；已跑通并写出汇总表。

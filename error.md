@@ -32,6 +32,24 @@
 - 原因：Frequency 几乎没有方差，标准化后复购客在特征空间里单独成团；KMeans 对其余客户主要按 R/M 切，和业务规则的互斥优先级不同。
 - 解决：看板正式标签用 `rfm_customers.segment`（规则）。`cluster_label` 只作对照，不替代规则分层。
 
+## [2026-09-06] 新版卡片找不到显示单位，GMV 变成 1.55 千
+
+- 现象：今日 GMV 显示 `1.55 千`，画笔「标注 → 值」里只有字体和对齐，没有「显示单位」。
+- 原因：新版 Card 把自动单位写死或藏得很深，和经典卡片菜单不一样。
+- 解决：不要再改显示单位。在 `kpi_snapshot` 上建 `FORMAT(...)` 度量值，卡片改绑度量值，就会显示 `1546.04`。
+
+## [2026-09-06] Power BI 填充地图闪一下又变成已禁用
+
+- 现象：字段已经放到「位置 / 色饱和度」，勾了「使用地图和着色地图视觉对象」后能显示几秒，然后灰框并报 `FilledMapVisualNotEnabled`。
+- 原因：填充地图走 Bing 在线底图。选项改完未完全生效，或当前文件级安全策略仍禁用；国内网络也常导致底图拉到一半失败。
+- 解决：选项点确定后彻底退出并重开 pbix，删掉灰框视觉对象再新建。若仍失败，改用气泡地图绑 `state_lat` / `state_lng`，或用州柱状图代替，不阻塞 Overview 其他图。
+
+## [2026-09-06] Power BI 把 brazil_states 列名读成 Column1
+
+- 现象：导入 `dashboard/brazil_states.csv` 后列是 `Column1`–`Column5`，第一行数据才是 `state_code` 等，表有 28 行。
+- 原因：CSV 带表头，但这次导入没有「将第一行用作标题」。
+- 解决：转换数据 → 选中该表 → **将第一行用作标题** → 关闭并应用。`rfm_segment_sort` 若同样变成 Column，用同一操作。
+
 ## [2026-09-06] DuckDB 把 CTE 名 asof 解析成 AS OF
 
 - 现象：执行 `04_rfm.sql` 报 `Parser Error: syntax error at or near "asof"`。

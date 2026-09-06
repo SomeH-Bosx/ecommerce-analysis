@@ -56,7 +56,7 @@ main
 1. **数据接入**（已完成）：`src/preprocess.py` 写出 `data/processed/*.csv` 与 `ecommerce.duckdb`
 2. **SQL 指标**（已完成）：`01_kpi.sql` / `02_customer.sql` / `03_product.sql`，用 `python src/run_sql.py` 写入 DuckDB 并导出汇总 CSV
 3. **用户分层**（已完成）：`04_rfm.sql` + `rfm.py` + `cluster.py` + `notebooks/eda.ipynb`
-4. **Power BI**：接入 processed 表，做 KPI、趋势、品类、地图、RFM
+4. **Power BI**（进行中）：按 `dashboard/README.md` 用汇总 CSV 搭 `Ecommerce.pbix`
 5. **AI 报告**：`report.py` 读取汇总，调用 OpenAI 或 Qwen
 6. **收口**：口径说明、README 运行步骤、回归核对数字
 
