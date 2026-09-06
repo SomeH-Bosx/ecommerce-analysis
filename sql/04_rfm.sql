@@ -1,0 +1,4 @@
+-- RFM 分层
+-- 输出：客户 Recency / Frequency / Monetary 及分段标签
+-- 分段建议：Champions / Loyal / Potential Loyalists / At Risk / Lost
+-- 本文件仅占位，Phase 3 再写具体查询

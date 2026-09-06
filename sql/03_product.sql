@@ -1,0 +1,4 @@
+-- 商品与品类分析
+-- 输出：热销品类、销量、GMV、均价
+-- 数据源：products + order_items + category 翻译表
+-- 本文件仅占位，Phase 2 再写具体查询

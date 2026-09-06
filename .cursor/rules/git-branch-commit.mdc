@@ -1,0 +1,40 @@
+---
+description: 完成一块功能后给出分支操作和 Conventional Commit 指令
+alwaysApply: true
+---
+
+# 功能完成后的 Git 指引
+
+每完成一块可独立交付的功能后，在对话末尾给出**可直接复制**的 git 指令和 commit message。默认只给指令，不执行 `git commit` / `git push`，除非用户明确要求代为提交。
+
+## 分支对照
+
+从 `main` 拉出，一块功能对应一条分支：
+
+| 功能 | 分支 |
+| --- | --- |
+| 数据接入与清洗 | `feature/data-pipeline` |
+| SQL 指标 | `feature/sql-analysis` |
+| RFM 与聚类 | `feature/rfm-cluster` |
+| Power BI | `feature/dashboard` |
+| AI 经营报告 | `feature/ai-report` |
+
+跨功能的规则、脚手架、文档改动留在 `main`。
+
+## 必须给出的指令
+
+按当前仓库状态写出完整命令（含是否先 `checkout -b`）：
+
+```bash
+git checkout main
+git checkout -b feature/<name>
+git add <具体文件>
+git commit -m "type(scope): subject"
+```
+
+## Commit 约定
+
+- 格式：`type(scope): subject`，subject 用英文祈使句，不超过 72 字符
+- type：`feat` / `fix` / `docs` / `chore` / `refactor` / `test`
+- scope：`data` / `sql` / `rfm` / `dashboard` / `report` / `rules`
+- 只 add 本步相关文件；`data/raw`、`data/processed`、`.env` 不入库
