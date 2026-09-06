@@ -1,5 +1,17 @@
 # 开发日志
 
+## [2026-09-06] 编写 KPI / 客户 / 品类 SQL 并落库
+
+- 做了什么：在 `feature/sql-analysis` 写完三份分析 SQL，用 `run_sql.py` 在 DuckDB 建汇总表并导出 CSV。数字与预处理核对一致。
+- 修改文件：
+  - `sql/01_kpi.sql`：今日/本月 KPI 快照，以及日/月销售趋势
+  - `sql/02_customer.sql`：客户复购概览、州/城市销售（含坐标）
+  - `sql/03_product.sql`：热销品类排名、GMV 占比
+  - `src/run_sql.py`：按顺序执行上述 SQL 并导出汇总 CSV
+  - `README.md`：补充运行命令、汇总表和核对值
+  - `error.md`：记录城市名对不齐导致部分城市无坐标
+  - `dev-log.md`：本步日志
+
 ## [2026-09-06] 实现数据预处理并写出 processed / DuckDB
 
 - 做了什么：实现 `src/preprocess.py`，清洗 9 张 Olist 表，约定业务当日与估算毛利，写出星型表 + `fact_sales` 宽表到 CSV 和 DuckDB。已跑通：as-of 2018-08-29，当日有效 GMV 1546.04，当月 848860.10。

@@ -20,6 +20,12 @@
 - 原因：公开订单表面向成交过程，不包含商家内部成本。
 - 解决：约定估算毛利率 30%。`gmv = price`，`estimated_profit = price * 0.30`，`estimated_cost = price * 0.70`。运费单独留在 `freight_value`，不计入 GMV。Dashboard / SQL 必须标明“估算”。
 
+## [2026-09-06] 城市名和地理表对不齐，部分城市没有坐标
+
+- 现象：`sales_by_city` 共 4299 个城市，其中 345 个 `city_lat` 为空；州级 `sales_by_state` 全部有坐标。
+- 原因：客户表城市名和 `olist_geolocation` 的拼写、重音、空格不完全一致（如 `sao paulo` vs `são paulo` 的残留写法），按州+城市等值连接会丢点。
+- 解决：地图主用州级 `customer_state` + 州中心坐标。城市表保留，缺坐标的城市不画点，不在 SQL 里做模糊匹配以免把不同城合并错。
+
 ## [2026-09-06] 两个品类没有官方英译
 
 - 现象：`product_category_name_translation.csv` 覆盖不了 `pc_gamer` 和 `portateis_cozinha_e_preparadores_de_alimentos`。

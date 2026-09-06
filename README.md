@@ -54,7 +54,7 @@ main
 
 0. **脚手架**（已完成）：目录、规则、日志、占位脚本
 1. **数据接入**（已完成）：`src/preprocess.py` 写出 `data/processed/*.csv` 与 `ecommerce.duckdb`
-2. **SQL 指标**：`01_kpi.sql` / `02_customer.sql` / `03_product.sql`
+2. **SQL 指标**（已完成）：`01_kpi.sql` / `02_customer.sql` / `03_product.sql`，用 `python src/run_sql.py` 写入 DuckDB 并导出汇总 CSV
 3. **用户分层**：`04_rfm.sql` + `rfm.py` + `cluster.py` + `eda.ipynb`
 4. **Power BI**：接入 processed 表，做 KPI、趋势、品类、地图、RFM
 5. **AI 报告**：`report.py` 读取汇总，调用 OpenAI 或 Qwen
@@ -75,8 +75,11 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 python src/preprocess.py
+python src/run_sql.py
 ```
 
-清洗结果在 `data/processed/`（CSV + `ecommerce.duckdb`，不入库）。主要表：`fact_sales`（订单行分析宽表）、`fact_orders`、`dim_*`、`meta_asof`。
+清洗结果在 `data/processed/`（CSV + `ecommerce.duckdb`，不入库）。明细表：`fact_sales`、`fact_orders`、`dim_*`、`meta_asof`。汇总表：`kpi_snapshot`、`sales_trend_daily` / `monthly`、`customer_overview`、`sales_by_state` / `city`、`category_sales`。
+
+业务当日 2018-08-29 的核对值：当日 GMV 1546.04（11 单，客单价 140.55）；当月 GMV 848860.10（6421 单，客单价 132.20）。估算利润率恒为 30%。
 
 API Key 复制 `.env.example` 为 `.env`。
