@@ -6,8 +6,8 @@
 
 | 模块 | 含义 | 数据口径 |
 | --- | --- | --- |
-| 今日 / 本月 GMV | 成交总额 | 以数据集最新下单日为“业务当日”，当日与当月 GMV |
-| 订单量、客单价、利润率 | 规模、客单、盈利能力 | 客单价 = GMV / 有效订单；利润率用估算毛利（数据集无成本） |
+| 今日 / 本月 GMV | 成交总额 | 业务当日 = delivered 最晚下单日（2018-08-29）；GMV = 有效订单的 `price` 之和 |
+| 订单量、客单价、利润率 | 规模、客单、盈利能力 | 有效订单不含 canceled / unavailable；估算毛利率 30% |
 | 销售趋势 | 时间序列 | 按日 / 月订单与 GMV |
 | 热销品类 | 品类贡献 | 英译品类名 + 销量 / GMV |
 | 地区销售地图 | 地理分布 | 巴西州级（`customer_state`） |
@@ -53,7 +53,7 @@ main
 ## 开发阶段
 
 0. **脚手架**（已完成）：目录、规则、日志、占位脚本
-1. **数据接入**（进行中）：Olist CSV 已在 `data/raw/`，下一步写 `preprocess.py`
+1. **数据接入**（已完成）：`src/preprocess.py` 写出 `data/processed/*.csv` 与 `ecommerce.duckdb`
 2. **SQL 指标**：`01_kpi.sql` / `02_customer.sql` / `03_product.sql`
 3. **用户分层**：`04_rfm.sql` + `rfm.py` + `cluster.py` + `eda.ipynb`
 4. **Power BI**：接入 processed 表，做 KPI、趋势、品类、地图、RFM
@@ -62,17 +62,21 @@ main
 
 ## 已知数据约束（规划阶段已确认）
 
-1. Olist 是 2016–2018 历史单，没有真实“今天”。统一用 `max(order_purchase_timestamp)` 作为业务当日。
-2. 表中没有商品成本，无法算真实利润。利润率采用明确估算口径（后续在 `error.md` / README 固定公式）。
+1. Olist 是 2016–2018 历史单。业务当日 = delivered 订单的 `max(order_purchase_timestamp)`，当前为 **2018-08-29**。
+2. 没有商品成本。估算毛利率固定 **30%**：`estimated_profit = price * 0.30`。GMV 只用 `price`，不含运费。
+3. 有效订单：`order_status` 不是 `canceled` / `unavailable`。
 
 ## 本地准备
 
-Olist 9 张原始 CSV 已在 `data/raw/`（不入库）。需要跑脚本时：
+Olist 9 张原始 CSV 已在 `data/raw/`（不入库）。
 
 ```bash
 python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python src/preprocess.py
 ```
+
+清洗结果在 `data/processed/`（CSV + `ecommerce.duckdb`，不入库）。主要表：`fact_sales`（订单行分析宽表）、`fact_orders`、`dim_*`、`meta_asof`。
 
 API Key 复制 `.env.example` 为 `.env`。

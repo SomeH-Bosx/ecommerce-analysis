@@ -1,5 +1,21 @@
 # 开发日志
 
+## [2026-09-06] 实现数据预处理并写出 processed / DuckDB
+
+- 做了什么：实现 `src/preprocess.py`，清洗 9 张 Olist 表，约定业务当日与估算毛利，写出星型表 + `fact_sales` 宽表到 CSV 和 DuckDB。已跑通：as-of 2018-08-29，当日有效 GMV 1546.04，当月 848860.10。
+- 修改文件：
+  - `src/preprocess.py`：读取 raw、清洗、写 `data/processed` 与 `ecommerce.duckdb`
+  - `README.md`：更新口径、运行命令和 Phase 1 状态
+  - `error.md`：补业务当日取 delivered、毛利率 30%、缺英译品类
+  - `dev-log.md`：本步日志
+  - `data/processed/*.csv`、`data/processed/ecommerce.duckdb`：本地产物，不入库
+
+## [2026-09-06] 确认依赖未装成功
+
+- 做了什么：核对终端安装日志和 venv 导入结果，结论是 `pip install -r requirements.txt` 失败，预处理还不能跑。
+- 修改文件：
+  - `error.md`：记录 pip/distlib `t64.exe` 与 `~ip` 残留导致的半残 venv
+
 ## [2026-09-06] 补充分支规则并归位 Olist 原始数据
 
 - 做了什么：新增 Git 分支/提交规则；把 `archive/` 下 9 张 Olist CSV 挪到 `data/raw/` 后删除 `archive/`；README 补上分支规划。
