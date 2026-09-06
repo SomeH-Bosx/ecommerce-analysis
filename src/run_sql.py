@@ -1,4 +1,4 @@
-"""把 sql/01–03 应用到 ecommerce.duckdb，并导出汇总 CSV。"""
+"""把 sql/01–04 应用到 ecommerce.duckdb，并导出汇总 CSV。"""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DB_PATH = ROOT / "data" / "processed" / "ecommerce.duckdb"
 SQL_DIR = ROOT / "sql"
 OUT_DIR = ROOT / "data" / "processed"
-SQL_FILES = ("01_kpi.sql", "02_customer.sql", "03_product.sql")
+SQL_FILES = ("01_kpi.sql", "02_customer.sql", "03_product.sql", "04_rfm.sql")
 EXPORT_TABLES = (
     "kpi_snapshot",
     "sales_trend_daily",
@@ -19,6 +19,9 @@ EXPORT_TABLES = (
     "sales_by_state",
     "sales_by_city",
     "category_sales",
+    "rfm_customers",
+    "rfm_segment_summary",
+    "rfm_score_heatmap",
 )
 
 

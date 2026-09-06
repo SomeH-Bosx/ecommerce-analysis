@@ -1,5 +1,18 @@
 # 开发日志
 
+## [2026-09-06] 实现 RFM 规则分层与 KMeans 对照
+
+- 做了什么：在 `feature/rfm-cluster` 完成 RFM 打分、五段业务标签、KMeans 对照和 EDA 笔记本；已跑通并写出汇总表。
+- 修改文件：
+  - `sql/04_rfm.sql`：客户 RFM、分段汇总、R×M 热力表
+  - `src/rfm.py`：执行 RFM SQL、导出 CSV、画分层分布图
+  - `src/cluster.py`：KMeans(k=5) 与规则分层交叉表
+  - `src/run_sql.py`：把 `04_rfm.sql` 纳入统一执行
+  - `notebooks/eda.ipynb`：趋势、品类/地区、RFM、聚类对照
+  - `README.md`：补充 RFM 运行命令和分段人数
+  - `error.md`：asof 关键字、Frequency 五分位失效、聚类与规则不对齐
+  - `dev-log.md`：本步日志
+
 ## [2026-09-06] 编写 KPI / 客户 / 品类 SQL 并落库
 
 - 做了什么：在 `feature/sql-analysis` 写完三份分析 SQL，用 `run_sql.py` 在 DuckDB 建汇总表并导出 CSV。数字与预处理核对一致。

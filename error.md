@@ -20,6 +20,24 @@
 - 原因：公开订单表面向成交过程，不包含商家内部成本。
 - 解决：约定估算毛利率 30%。`gmv = price`，`estimated_profit = price * 0.30`，`estimated_cost = price * 0.70`。运费单独留在 `freight_value`，不计入 GMV。Dashboard / SQL 必须标明“估算”。
 
+## [2026-09-06] Olist 复购极低，Frequency 不能用五分位
+
+- 现象：约 97% 客户只有 1 单，`NTILE(5) OVER (ORDER BY frequency)` 会把大量同分客户硬切成 1–5，分数没有业务含义。
+- 原因：这是一次性购买为主的电商公开集，不是高频会员池。
+- 解决：F 分改为 1 单→1、2 单→3、3 单及以上→5。规则分层里 Champions / Loyal 只会是复购客（合计约 2%），其余按 Recency 分为 Potential Loyalists / At Risk / Lost。
+
+## [2026-09-06] KMeans 五簇和规则分层对不齐
+
+- 现象：交叉表里所有 Champions、Loyal Customers 都进了 `Champions-like`；Potential / At Risk / Lost 被 Recency、Monetary 切开。
+- 原因：Frequency 几乎没有方差，标准化后复购客在特征空间里单独成团；KMeans 对其余客户主要按 R/M 切，和业务规则的互斥优先级不同。
+- 解决：看板正式标签用 `rfm_customers.segment`（规则）。`cluster_label` 只作对照，不替代规则分层。
+
+## [2026-09-06] DuckDB 把 CTE 名 asof 解析成 AS OF
+
+- 现象：执行 `04_rfm.sql` 报 `Parser Error: syntax error at or near "asof"`。
+- 原因：DuckDB 支持 `AS OF` 时间旅行语法，`WITH asof AS (...)` 会被拆开解析。
+- 解决：CTE 改名为 `as_of_meta`。
+
 ## [2026-09-06] 城市名和地理表对不齐，部分城市没有坐标
 
 - 现象：`sales_by_city` 共 4299 个城市，其中 345 个 `city_lat` 为空；州级 `sales_by_state` 全部有坐标。
