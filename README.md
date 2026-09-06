@@ -56,8 +56,8 @@ main
 1. **数据接入**（已完成）：`src/preprocess.py` 写出 `data/processed/*.csv` 与 `ecommerce.duckdb`
 2. **SQL 指标**（已完成）：`01_kpi.sql` / `02_customer.sql` / `03_product.sql`，用 `python src/run_sql.py` 写入 DuckDB 并导出汇总 CSV
 3. **用户分层**（已完成）：`04_rfm.sql` + `rfm.py` + `cluster.py` + `notebooks/eda.ipynb`
-4. **Power BI**（进行中）：按 `dashboard/README.md` 用汇总 CSV 搭 `Ecommerce.pbix`
-5. **AI 报告**：`report.py` 读取汇总，调用 OpenAI 或 Qwen
+4. **Power BI**（已完成）：按 `dashboard/README.md` 用汇总 CSV 搭 `Ecommerce.pbix`（本地文件，不入库）
+5. **AI 报告**（已完成）：`python src/report.py` 读汇总，优先 Qwen，其次 OpenAI；无 Key 时写本地模板
 6. **收口**：口径说明、README 运行步骤、回归核对数字
 
 ## 已知数据约束（规划阶段已确认）
@@ -78,6 +78,8 @@ python src/preprocess.py
 python src/run_sql.py
 python src/rfm.py
 python src/cluster.py
+copy .env.example .env
+python src/report.py
 ```
 
 清洗结果在 `data/processed/`（CSV + `ecommerce.duckdb`，不入库）。明细表：`fact_sales`、`fact_orders`、`dim_*`、`meta_asof`。汇总表：`kpi_snapshot`、`sales_trend_daily` / `monthly`、`customer_overview`、`sales_by_state` / `city`、`category_sales`、`rfm_customers`、`rfm_segment_summary`、`rfm_clusters`。

@@ -1,5 +1,15 @@
 # 开发日志
 
+## [2026-09-06] 实现 AI / 本地经营总结
+
+- 做了什么：在 `feature/ai-report` 实现 `report.py`，从 DuckDB 读 KPI/RFM/品类/州数据，有 Key 调 Qwen 或 OpenAI，无 Key 写本地模板。已离线跑通。
+- 修改文件：
+  - `src/report.py`：组装事实、调用模型或本地摘要，写出 `business_summary.md`
+  - `.env.example`：OpenAI / Qwen 变量模板
+  - `.env`：本地空密钥（gitignore，不入库）
+  - `README.md`：Phase 5 状态和运行命令
+  - `dev-log.md`：本步日志
+
 ## [2026-09-06] 记录新版卡片无法关闭「千」
 
 - 做了什么：对照用户格式面板，确认新版 Card 没有可用的显示单位项，改为用 FORMAT 度量值出原值。
