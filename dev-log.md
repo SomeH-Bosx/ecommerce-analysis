@@ -1,5 +1,12 @@
 # 开发日志
 
+## [2026-09-07] 品类汇总增加中文名
+
+- 做了什么：在 `03_product.sql` 用 CASE 把英译品类映射为 `category_zh`，供 Power BI 横坐标使用。
+- 修改文件：
+  - `sql/03_product.sql`：输出 `category` 与 `category_zh`
+  - `dev-log.md`：本步日志
+
 ## [2026-09-06] 精简对外 README
 
 - 做了什么：去掉分支史、开发阶段和内部文件清单，README 只保留功能、口径、启动和预期结果。
